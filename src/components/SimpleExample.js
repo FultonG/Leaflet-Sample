@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Map as LeafletMap, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import API from '../utils/API';
 
 const SimpleExample = () => {
+
+  // These variables are state variables for more info look into hooks
+  // https://reactjs.org/docs/hooks-intro.html
   const [latitude, setLatitude] = useState(25.7574);
   const [longitude, setLongitude] = useState(-80.3733);
   const [zoom, setZoom] = useState(17);
+  const [shape, setShape] = useState([]);
+
+  // This useEffect runs when the component is loaded, we're calling
+  // the "API" to get the shape and set it to our state variable
+  useEffect(() => {
+    setShape(API.getShape());
+  }, []);
 
   return (
+    // The LeafletMap component is the entire Map
     <LeafletMap center={[latitude, longitude]} zoom={zoom}>
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -20,8 +32,8 @@ const SimpleExample = () => {
           </div>
         </Popup>
       </Marker>
-      <Polyline positions={[[25.7596123, -80.3740048], [25.7595504, -80.3744470], [25.7595597, -80.3746499], [25.7594806, -80.3750076] ,[25.7594830, -80.3753871], [25.7594565, -80.3757942], [25.7596108, -80.3759625]]}>
-      <Popup>
+      <Polyline positions={shape}>
+        <Popup>
           <div>
             <h2>really dumb line</h2>
           </div>

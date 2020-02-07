@@ -1,3 +1,6 @@
+/*
+  This is the CSS for the leaflet map. 100% to take up the full container size
+*/
 .leaflet-container {
   width: 100%;
   height: 100%;
